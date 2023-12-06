@@ -7,7 +7,7 @@ removert:
   saveMapPCD: false 
   saveCleanScansPCD: true
   save_pcd_directory: "/home/will/data/dynamic_filter/PCD/results/" # replace to your path (please use an absolute path)
-  save_globalmap_resolution: 
+  save_globalmap_resolution: 0.2
 
   # @ sequence info (replace to your paths) 
   #   please follow the KITTI odometry dataset's scan and pose formats (i.e., make them .bin and line-by-line corresponding se3 poses composed of 12 numbers)
