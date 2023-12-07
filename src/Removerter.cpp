@@ -33,6 +33,7 @@ Removerter::Removerter()
 
     nh.param<int>("removert/num_nn_points_within", kNumKnnPointsToCompare, 3); // using higher, more strict static 
     nh.param<float>("removert/dist_nn_points_within", kScanKnnAndMapKnnAvgDiffThreshold, 0.1); // using smaller, more strict static 
+    nh.param<float>("removert/valid_check_range", valid_check_range_, 100);
 
     if( save_pcd_directory_.substr(save_pcd_directory_.size()-1, 1) != std::string("/") )
         save_pcd_directory_ = save_pcd_directory_ + "/";
@@ -214,7 +215,8 @@ std::pair<cv::Mat, cv::Mat> Removerter::map2RangeImg(const pcl::PointCloud<Point
         // @         also, a point A and B lied in different for-segments do not tend to correspond to the same pixel, 
         // #               so we can assume practically there are few race conditions.     
         // @ P.S. some explicit mutexing directive makes the code even slower ref: https://stackoverflow.com/questions/2396430/how-to-use-lock-in-openmp
-        if ( curr_range < rimg.at<float>(pixel_idx_row, pixel_idx_col) ) {
+        if (curr_range < valid_check_range_)
+        {
             rimg.at<float>(pixel_idx_row, pixel_idx_col) = curr_range;
             rimg_ptidx.at<int>(pixel_idx_row, pixel_idx_col) = pt_idx;
         }
@@ -264,7 +266,8 @@ cv::Mat Removerter::scan2RangeImg(const pcl::PointCloud<PointType>::Ptr& _scan,
         // @         also, a point A and B lied in different for-segments do not tend to correspond to the same pixel, 
         // #               so we can assume practically there are few race conditions.     
         // @ P.S. some explicit mutexing directive makes the code even slower ref: https://stackoverflow.com/questions/2396430/how-to-use-lock-in-openmp
-        if ( curr_range < rimg.at<float>(pixel_idx_row, pixel_idx_col) ) {
+        if (curr_range < valid_check_range_)
+        {
             rimg.at<float>(pixel_idx_row, pixel_idx_col) = curr_range;
         }
     }

@@ -100,6 +100,7 @@ public:
     bool kFlagSaveMapPointcloud;
     bool kFlagSaveCleanScans;
     std::string save_pcd_directory_;
+    float valid_check_range_;
 
 public:
     RosParamServer();

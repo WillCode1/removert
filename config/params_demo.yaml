@@ -19,7 +19,7 @@ removert:
                     # for example, KITTI's HDL64E is 2 + 24.9 ~ 27 deg. (so 25 + 25 = 50 is recommended because it is enough)
                     #            , MulRan's Ouster OS1-64 has +22.5 to -22.5 deg. (so 22.5 + 22.5 = 45 < 50 is also enough and able to cover the all vfov)
   sequence_hfov: 360 # generally for targetting scanning LiDAR but a lidar having restricted hfov also just can use the 360 (because no point regions are considered in the algorithm)
-
+  valid_check_range: 30
 
   # @ Sequence's BaseToLidar info
   # @ If you use the lidar-itself odometry (e.g., from SC-LIO-SAM's pose saver, the pose is from lidar itself so use the identity)
