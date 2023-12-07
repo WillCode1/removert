@@ -99,6 +99,7 @@ public:
     //
     bool kFlagSaveMapPointcloud;
     bool kFlagSaveCleanScans;
+    std::string data_directory_;
     std::string save_pcd_directory_;
     float valid_check_range_;
 

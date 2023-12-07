@@ -55,8 +55,7 @@ int main(int argc, char **argv)
 
     std::shared_ptr<Removerter> rmv_ptr = std::make_shared<Removerter>();
     const auto save_pcd_directory = rmv_ptr->save_pcd_directory_;
-    const auto map_static_save_dir = rmv_ptr->map_static_save_dir_;
-    const auto map_dynamic_save_dir = rmv_ptr->map_dynamic_save_dir_;
+    const auto data_directory = rmv_ptr->data_directory_;
     auto keyframe_groups = keyframe_sequence_grouping(0, rmv_ptr->sequence_scan_paths_.size() - 1, keyframe_group_size);
     rmv_ptr.reset();
 
@@ -74,10 +73,10 @@ int main(int argc, char **argv)
         RMV.end_idx_ = group.second;
         RMV.run();
 
-        pcl::io::loadPCDFile(map_static_save_dir + "/StaticMapScansideMapGlobal.pcd", *static_submap);
+        pcl::io::loadPCDFile(RMV.map_static_save_dir_ + "/StaticMapScansideMapGlobal.pcd", *static_submap);
         *static_map_full += *static_submap;
 
-        pcl::io::loadPCDFile(map_dynamic_save_dir + "/DynamicMapScansideMapGlobal.pcd", *dynamic_submap);
+        pcl::io::loadPCDFile(RMV.map_dynamic_save_dir_ + "/DynamicMapScansideMapGlobal.pcd", *dynamic_submap);
         *dynamic_map_full += *dynamic_submap;
     }
 
@@ -91,6 +90,7 @@ int main(int argc, char **argv)
     octreeDownsampling(static_map_full, static_map_full, save_globalmap_resolution);
 
     pcd_writer.writeBinary(save_pcd_directory + "/globalmap.pcd", *static_map_full);
+    pcd_writer.writeBinary(data_directory + "/globalmap.pcd", *static_map_full);
     std::cout << "\033[1;32m----> map (downsamp) has saved!\033[0m" << std::endl;
 
     auto endTime = ros::Time::now().toSec();

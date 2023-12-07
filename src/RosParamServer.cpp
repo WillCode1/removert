@@ -33,13 +33,12 @@ RosParamServer::RosParamServer()
     kSE3MatExtrinsicPoseBasetoLiDAR = kSE3MatExtrinsicLiDARtoPoseBase.inverse();
 
     // parsing bin file paths
-    std::string data_directory;
-    nh.param<std::string>("removert/data_directory", data_directory, "/");
+    nh.param<std::string>("removert/data_directory", data_directory_, "/");
     nh.param<std::string>("removert/save_pcd_directory", save_pcd_directory_, "/");
-    save_pcd_directory_ = data_directory + save_pcd_directory_;
+    save_pcd_directory_ = data_directory_ + save_pcd_directory_;
 
     nh.param<std::string>("removert/sequence_scan_dir", sequence_scan_dir_, "/use/your/directory/having/*.bin");
-    sequence_scan_dir_ = data_directory + sequence_scan_dir_;
+    sequence_scan_dir_ = data_directory_ + sequence_scan_dir_;
     for(auto& _entry : fs::directory_iterator(sequence_scan_dir_)) {
         sequence_scan_names_.emplace_back(_entry.path().filename());
         sequence_scan_paths_.emplace_back(_entry.path());
@@ -55,7 +54,7 @@ RosParamServer::RosParamServer()
 
     // parsing pose info
     nh.param<std::string>("removert/sequence_pose_path", sequence_pose_path_, "/use/your/path/having/pose.txt");
-    sequence_pose_path_ = data_directory + sequence_pose_path_;
+    sequence_pose_path_ = data_directory_ + sequence_pose_path_;
     std::ifstream pose_file_handle (sequence_pose_path_);
     int num_poses {0};
     std::string strOneLine;
