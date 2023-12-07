@@ -17,8 +17,10 @@ void Removerter::cloudHandler(const sensor_msgs::PointCloud2ConstPtr& laserCloud
 
 void fsmkdir(std::string _path)
 {
-    if (!fs::is_directory(_path) || !fs::exists(_path)) 
-        fs::create_directories(_path); // create src folder
+    if (fs::exists(_path))
+        fs::remove_all(_path);
+
+    fs::create_directories(_path); // create src folder
 } //fsmkdir
 
 Removerter::Removerter()
@@ -326,6 +328,7 @@ void Removerter::makeGlobalMap( void )
     // - For a large-size point cloud should use OctreePointCloudVoxelCentroid rather VoxelGrid
     octreeDownsampling(map_global_orig_, map_global_curr_);
 
+#if 0
     // save the original cloud 
     if( kFlagSaveMapPointcloud ) {
         // in global coord
@@ -341,6 +344,7 @@ void Removerter::makeGlobalMap( void )
         pcl::io::savePCDFileBinary(static_local_file_name, *map_local_curr);
         ROS_INFO_STREAM("\033[1;32m The original pointcloud is saved (local coord): " << static_local_file_name << "\033[0m");   
     }
+#endif
     // make tree (for fast ball search for the projection to make a map range image later)
     // if(kUseSubsetMapCloud) // NOT recommend to use for under 5 million points map input
     //     kdtree_map_global_curr_->setInputCloud(map_global_curr_);

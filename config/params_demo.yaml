@@ -4,15 +4,16 @@ removert:
   isScanFileKITTIFormat: false
 
   # @ save option 
-  saveMapPCD: false 
+  saveMapPCD: true 
   saveCleanScansPCD: true
-  save_pcd_directory: "/home/will/data/dynamic_filter/PCD/results/" # replace to your path (please use an absolute path)
-  save_globalmap_resolution: 0.2
+  data_directory: "/home/will/data/dynamic_filter/PCD/"
+  save_pcd_directory: "/results/" # replace to your path (please use an absolute path)
+  save_globalmap_resolution: 0.3
 
   # @ sequence info (replace to your paths) 
   #   please follow the KITTI odometry dataset's scan and pose formats (i.e., make them .bin and line-by-line corresponding se3 poses composed of 12 numbers)
-  sequence_scan_dir: "/home/will/data/dynamic_filter/PCD/keyframe/"
-  sequence_pose_path: "/home/will/data/dynamic_filter/PCD/keyframe_pose_removert.txt"
+  sequence_scan_dir: "/keyframe/"
+  sequence_pose_path: "/keyframe_pose_removert.txt"
 
   sequence_vfov: 50 # including upper and lower fovs, 
                     # for example, KITTI's HDL64E is 2 + 24.9 ~ 27 deg. (so 25 + 25 = 50 is recommended because it is enough)

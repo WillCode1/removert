@@ -24,7 +24,7 @@ private:
     std::string scan_static_save_dir_;
     std::string scan_dynamic_save_dir_;
     // std::string map_static_save_dir_;
-    std::string map_dynamic_save_dir_;
+    // std::string map_dynamic_save_dir_;
     
     std::vector<Eigen::Matrix4d> scan_poses_;
     std::vector<Eigen::Matrix4d> scan_inverse_poses_;
@@ -130,4 +130,5 @@ public:
     void saveDynamicScan( int _scan_idx, const pcl::PointCloud<PointType>::Ptr& _ptcloud );
 
     std::string map_static_save_dir_;
+    std::string map_dynamic_save_dir_;
 }; // Removerter
