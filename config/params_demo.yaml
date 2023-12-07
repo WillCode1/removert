@@ -43,6 +43,7 @@ removert:
   #   but for a single batch, < 100 scans are recommended for the computation speed.
   start_idx: 500 # change this 
   end_idx: 800 # change this
+  keyframe_group_size: 200
 
 
   # @ auto repeat

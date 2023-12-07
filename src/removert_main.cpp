@@ -48,14 +48,16 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "removert");
     ROS_INFO("\033[1;32m----> Removert Main Started.\033[0m");
 
+    int keyframe_group_size;
     double save_globalmap_resolution;
     ros::param::param("removert/save_globalmap_resolution", save_globalmap_resolution, 0.2);
+    ros::param::param("removert/keyframe_group_size", keyframe_group_size, 300);
 
     std::shared_ptr<Removerter> rmv_ptr = std::make_shared<Removerter>();
     const auto save_pcd_directory = rmv_ptr->save_pcd_directory_;
     const auto map_static_save_dir = rmv_ptr->map_static_save_dir_;
     const auto map_dynamic_save_dir = rmv_ptr->map_dynamic_save_dir_;
-    auto keyframe_groups = keyframe_sequence_grouping(0, rmv_ptr->sequence_scan_paths_.size() - 1);
+    auto keyframe_groups = keyframe_sequence_grouping(0, rmv_ptr->sequence_scan_paths_.size() - 1, keyframe_group_size);
     rmv_ptr.reset();
 
     pcl::PointCloud<PointType>::Ptr static_map_full(new pcl::PointCloud<PointType>());
