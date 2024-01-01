@@ -6,8 +6,8 @@ removert:
   # @ save option 
   saveMapPCD: true 
   saveCleanScansPCD: true
-  data_directory: "/home/will/code/slam/catkin_ws/src/fast_lio_sam/PCD/"
-  save_pcd_directory: "/results/" # replace to your path (please use an absolute path)
+  data_directory: "/home/will/data/test_mapping/mapping1/"
+  save_pcd_directory: "/removert_results/" # replace to your path (please use an absolute path)
   save_globalmap_resolution: 0.3
 
   # @ sequence info (replace to your paths) 
