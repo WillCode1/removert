@@ -87,7 +87,7 @@ using std::endl;
 //     (float, x, x) (float, y, y) (float, z, z) (float, intensity, intensity) (float, score, score)
 // )
 
-using PointType = pcl::PointXYZINormal;
+using PointType = pcl::PointXYZI;
 
 struct SphericalPoint
 {
