@@ -1,5 +1,6 @@
 #include "removert/RosParamServer.h"
 
+// #define USE_KITTI
 
 RosParamServer::RosParamServer()
 : nh(nh_super), ROSimg_transporter_(nh)
@@ -60,17 +61,38 @@ RosParamServer::RosParamServer()
     std::string strOneLine;
     while (getline(pose_file_handle, strOneLine)) 
     {
+        if (strOneLine[0] == '#')
+            continue;
+
         // str to vec
         std::vector<double> ith_pose_vec = splitPoseLine(strOneLine, ' ');
+        Eigen::Matrix4d ith_pose = Eigen::Matrix4d::Identity();
+        Eigen::Quaterniond ith_quat;
+        Eigen::Vector3d ith_pos;
+
+#ifdef USE_KITTI
         if(ith_pose_vec.size() == 12) {
             ith_pose_vec.emplace_back(double(0.0)); 
             ith_pose_vec.emplace_back(double(0.0)); 
             ith_pose_vec.emplace_back(double(0.0)); 
             ith_pose_vec.emplace_back(double(1.0));
+            ith_pose = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(ith_pose_vec.data(), 4, 4);
         }
-    
+#else
+        if(ith_pose_vec.size() == 8) {
+            ith_quat = Eigen::Map<const Eigen::Quaterniond>(ith_pose_vec.data() + 4);
+            ith_pos = Eigen::Map<const Eigen::Vector3d>(ith_pose_vec.data() + 1);
+            ith_pose.topLeftCorner(3, 3) = ith_quat.toRotationMatrix();
+            ith_pose.topRightCorner(3, 1) = ith_pos;
+        }
+#endif
+        else
+        {
+            ROS_ERROR("pose format error!");
+        }
+
         // vec to eig
-        Eigen::Matrix4d ith_pose = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(ith_pose_vec.data(), 4, 4);
+        // Eigen::Matrix4d ith_pose = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(ith_pose_vec.data(), 4, 4);
         Eigen::Matrix4d ith_pose_inverse = ith_pose.inverse();
 
         // save (move)
